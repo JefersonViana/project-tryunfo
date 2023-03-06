@@ -6,14 +6,14 @@ class App extends React.Component {
     super();
 
     this.state = {
-      nameCard: '',
-      textarea: '',
-      atributo1: 0,
-      atributo2: 0,
-      atributo3: 0,
-      linkSrc: '',
-      select: 'normal',
-      checkbox: false,
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
     };
     this.handleClickGeneric = this.handleClickGeneric.bind(this);
   }
@@ -21,7 +21,7 @@ class App extends React.Component {
   handleClickGeneric = ({ target }) => {
     if (target.type === 'checkbox') {
       this.setState({
-        checkbox: target.checked,
+        cardTrunfo: target.checked,
       });
       return;
     }
@@ -32,26 +32,26 @@ class App extends React.Component {
 
   render() {
     const {
-      nameCard,
-      textarea,
-      atributo1,
-      atributo2,
-      atributo3,
-      linkSrc,
-      select,
-      checkbox,
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
     } = this.state;
     return (
       <Form
-        nameCard={ nameCard }
+        cardName={ cardName }
+        cardDescription={ cardDescription }
+        cardAttr1={ cardAttr1 }
+        cardAttr2={ cardAttr2 }
+        cardAttr3={ cardAttr3 }
+        cardImage={ cardImage }
+        cardRare={ cardRare }
+        cardTrunfo={ cardTrunfo }
         callback={ this.handleClickGeneric }
-        textarea={ textarea }
-        atributo1={ Number(atributo1) }
-        atributo2={ Number(atributo2) }
-        atributo3={ Number(atributo3) }
-        linkSrc={ linkSrc }
-        select={ select }
-        checkbox={ checkbox }
       />
     );
   }
