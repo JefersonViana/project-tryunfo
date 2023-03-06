@@ -25,13 +25,21 @@ class App extends React.Component {
     if (target.type === 'checkbox') {
       this.setState({
         cardTrunfo: target.checked,
-        isSaveButtonDisabled: !target.checked,
       });
       return;
     }
     this.setState({
-      [target.name]: target.value,
+      [target.name]: target.value !== ' ' ? target.value : '',
     });
+    if (target.value.length > 1 && target.type !== 'number') {
+      this.setState({
+        isSaveButtonDisabled: false,
+      });
+    } else {
+      this.setState({
+        isSaveButtonDisabled: true,
+      });
+    }
   };
 
   handleButton = () => {
@@ -83,3 +91,32 @@ class App extends React.Component {
 }
 
 export default App;
+
+// const {
+//   cardName,
+//   cardDescription,
+//   cardImage,
+//   cardRare,
+//   cardAttr1,
+//   cardAttr2,
+//   cardAttr3,
+// } = this.state;
+// const array = [
+//   cardName.length !== null,
+//   cardDescription.length > 1,
+//   cardImage.length > 1,
+//   cardRare.length > 1,
+// ];
+// const enable = array.every((element) => element > 0);
+// const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
+// const number = 210;
+// console.log(event);
+// if (enable && sum < number) {
+//   this.setState({
+//     isSaveButtonDisabled: !enable,
+//   });
+// } else {
+//   this.setState({
+//     isSaveButtonDisabled: true,
+//   });
+// }
