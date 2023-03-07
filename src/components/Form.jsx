@@ -1,8 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Span from './Span';
+import Label from './Label';
 
 class Form extends React.Component {
   render() {
+    // const teste = <span>Você já tem um Super Trunfo em seu baralho</span>;
+    // const teste1 =
+    //   <input
+    //     type="checkbox"
+    //     name="cardTrunfo"
+    //     defaultChecked={ cardTrunfo }
+    //     data-testid="trunfo-input"
+    //     onClick={ onInputChange }
+    //   />;
+
     const {
       cardName,
       cardDescription,
@@ -91,15 +103,7 @@ class Form extends React.Component {
             <option>muito raro</option>
           </select>
         </label>
-        <label>
-          <input
-            type="checkbox"
-            name="cardTrunfo"
-            defaultChecked={ cardTrunfo }
-            data-testid="trunfo-input"
-            onClick={ onInputChange }
-          />
-        </label>
+        { hasTrunfo ? <Span /> : <Label func={ onInputChange } trunfo={ cardTrunfo } />}
         <button
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
@@ -128,4 +132,3 @@ Form.propTypes = {
 };
 
 export default Form;
-// teste
