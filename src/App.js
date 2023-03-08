@@ -65,7 +65,7 @@ class App extends React.Component {
         cardAttr3,
         cardImage,
         cardRare,
-        cardTrunfo: cardTrunfo ? 'Super Trunfo' : '',
+        cardTrunfo: cardTrunfo ? 'Super Trunfo' : false,
       }],
     });
 
@@ -94,6 +94,33 @@ class App extends React.Component {
       });
     }
   };
+
+  handleDelete = (index) => {
+    const { cardArray, hasTrunfo } = this.state;
+    const xablau = cardArray.filter((_object, teste) => teste !== index);
+    this.setState({
+      cardArray: xablau,
+    });
+    if (hasTrunfo) {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+  };
+  // quando executar handleDelete, se
+
+  // handleDelete = ({ target }) => {
+  //   const alvo = target.parentNode.firstChild.firstChild.innerText;
+  //   const { cardArray } = this.state;
+  //   let position;
+  //   cardArray.filter((object, index) => {
+  //     position = index;
+  //     return object.cardName === alvo;
+  //   });
+  //   cardArray.splice(position);
+  //   console.log(target.parentNode);
+  //   target.parentNode.remove();
+  // };
 
   render() {
     const {
@@ -135,18 +162,28 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        {cardArray.map((object) => (
-          <Card
-            key={ cardName }
-            cardName={ object.cardName }
-            cardDescription={ object.cardDescription }
-            cardAttr1={ object.cardAttr1 }
-            cardAttr2={ object.cardAttr2 }
-            cardAttr3={ object.cardAttr3 }
-            cardImage={ object.cardImage }
-            cardRare={ object.cardRare }
-            cardTrunfo={ object.cardTrunfo }
-          />
+        {cardArray.map((object, index) => (
+          <div key={ object.cardName }>
+            <Card
+              cardName={ object.cardName }
+              cardDescription={ object.cardDescription }
+              cardAttr1={ object.cardAttr1 }
+              cardAttr2={ object.cardAttr2 }
+              cardAttr3={ object.cardAttr3 }
+              cardImage={ object.cardImage }
+              cardRare={ object.cardRare }
+              cardTrunfo={ object.cardTrunfo }
+            />
+            <button
+              data-testid="delete-button"
+              type="button"
+              // onClick={ this.handleDelete }
+              // passar o index do MAP
+              onClick={ () => this.handleDelete(index) }
+            >
+              Excluir
+            </button>
+          </div>
         ))}
       </>
     );
