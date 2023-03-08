@@ -18,7 +18,6 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cardArray: [],
-      teste: 'Super Trunfo',
       filterName: '',
     };
     this.handleClickGeneric = this.handleClickGeneric.bind(this);
@@ -56,7 +55,6 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       cardArray,
-      teste,
     } = this.state;
     this.setState({
       cardArray: [...cardArray, {
@@ -68,7 +66,6 @@ class App extends React.Component {
         cardImage,
         cardRare,
         cardTrunfo,
-        teste,
       }],
     });
 
@@ -149,7 +146,6 @@ class App extends React.Component {
       isSaveButtonDisabled,
       cardArray,
       filterName,
-      teste,
     } = this.state;
 
     return (
@@ -177,7 +173,6 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          teste={ teste }
         />
         <div>
           <p>Filtar por nome</p>
@@ -202,7 +197,6 @@ class App extends React.Component {
               cardImage={ obj.cardImage }
               cardRare={ obj.cardRare }
               cardTrunfo={ obj.cardTrunfo }
-              teste={ teste }
             />
             <button
               data-testid="delete-button"
