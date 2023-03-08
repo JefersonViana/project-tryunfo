@@ -18,6 +18,8 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cardArray: [],
+      teste: 'Super Trunfo',
+      filterName: '',
     };
     this.handleClickGeneric = this.handleClickGeneric.bind(this);
   }
@@ -54,8 +56,8 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       cardArray,
+      teste,
     } = this.state;
-
     this.setState({
       cardArray: [...cardArray, {
         cardName,
@@ -65,7 +67,8 @@ class App extends React.Component {
         cardAttr3,
         cardImage,
         cardRare,
-        cardTrunfo: cardTrunfo ? 'Super Trunfo' : false,
+        cardTrunfo,
+        teste,
       }],
     });
 
@@ -107,20 +110,30 @@ class App extends React.Component {
       });
     }
   };
-  // quando executar handleDelete, se
 
-  // handleDelete = ({ target }) => {
-  //   const alvo = target.parentNode.firstChild.firstChild.innerText;
-  //   const { cardArray } = this.state;
-  //   let position;
-  //   cardArray.filter((object, index) => {
-  //     position = index;
-  //     return object.cardName === alvo;
+  // handleFilter = ({ target }) => {
+  //   this.setState({
+  //     [target.name]: target.value !== ' ' ? target.value : '',
   //   });
-  //   cardArray.splice(position);
-  //   console.log(target.parentNode);
-  //   target.parentNode.remove();
+  //   const { cardArray } = this.state;
+  //   const newArray = cardArray.filter((card) => {
+  //     const teste = card.cardName;
+  //     return teste.includes(target.value);
+  //   });
   // };
+  handleFilter = ({ target }) => {
+    const { cardArray } = this.state;
+    this.setState({
+      [target.name]: target.value !== ' ' ? target.value : '',
+    });
+    const newArray = cardArray.filter((card) => {
+      const teste = card.cardName;
+      return teste.includes(target.value);
+    });
+    this.setState({
+      cardArray: [...newArray],
+    });
+  };
 
   render() {
     const {
@@ -135,7 +148,10 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       cardArray,
+      filterName,
+      teste,
     } = this.state;
+
     return (
       <>
         <Form
@@ -161,18 +177,32 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          teste={ teste }
         />
-        {cardArray.map((object, index) => (
-          <div key={ object.cardName }>
+        <div>
+          <p>Filtar por nome</p>
+          <label>
+            <input
+              data-testid="name-filter"
+              type="text"
+              name="filterName"
+              value={ filterName }
+              onChange={ this.handleFilter }
+            />
+          </label>
+        </div>
+        {cardArray.map((obj, index) => (
+          <div key={ obj.cardName }>
             <Card
-              cardName={ object.cardName }
-              cardDescription={ object.cardDescription }
-              cardAttr1={ object.cardAttr1 }
-              cardAttr2={ object.cardAttr2 }
-              cardAttr3={ object.cardAttr3 }
-              cardImage={ object.cardImage }
-              cardRare={ object.cardRare }
-              cardTrunfo={ object.cardTrunfo }
+              cardName={ obj.cardName }
+              cardDescription={ obj.cardDescription }
+              cardAttr1={ obj.cardAttr1 }
+              cardAttr2={ obj.cardAttr2 }
+              cardAttr3={ obj.cardAttr3 }
+              cardImage={ obj.cardImage }
+              cardRare={ obj.cardRare }
+              cardTrunfo={ obj.cardTrunfo }
+              teste={ teste }
             />
             <button
               data-testid="delete-button"
@@ -199,24 +229,3 @@ export default App;
 //   cardRare,
 //   cardAttr1,
 //   cardAttr2,
-//   cardAttr3,
-// } = this.state;
-// const array = [
-//   cardName.length !== null,
-//   cardDescription.length > 1,
-//   cardImage.length > 1,
-//   cardRare.length > 1,
-// ];
-// const enable = array.every((element) => element > 0);
-// const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
-// const number = 210;
-// console.log(event);
-// if (enable && sum < number) {
-//   this.setState({
-//     isSaveButtonDisabled: !enable,
-//   });
-// } else {
-//   this.setState({
-//     isSaveButtonDisabled: true,
-//   });
-// }
