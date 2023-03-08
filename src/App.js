@@ -19,6 +19,7 @@ class App extends React.Component {
       cardArray: [],
       filterName: '',
       raridadeFilter: 'todas',
+      check: false,
     };
     this.handleClickGeneric = this.handleClickGeneric.bind(this);
   }
@@ -117,6 +118,16 @@ class App extends React.Component {
       return teste === 'raro';
     });
     this.setState({ cardArray: [...newArray] });
+  };
+
+  handleClick = ({ target }) => {
+    const { cardArray } = this.state;
+    if (target.checked) {
+      const newArray = cardArray.filter((card) => card.cardTrunfo);
+      this.setState({ check: true, cardArray: [...newArray] });
+    } else {
+      this.setState({ check: false });
+    }
   };
 
   render() {
