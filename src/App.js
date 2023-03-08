@@ -87,10 +87,10 @@ class App extends React.Component {
     }
   };
 
-  handleDelete = (index) => {
+  handleDelete = (indexMap) => {
     const { cardArray, hasTrunfo } = this.state;
-    const xablau = cardArray.filter((_object, teste) => teste !== index);
-    this.setState({ cardArray: xablau });
+    const arrayCards = cardArray.filter((_object, indexAtual) => indexAtual !== indexMap);
+    this.setState({ cardArray: arrayCards });
     if (hasTrunfo) {
       this.setState({ hasTrunfo: false });
     }
@@ -99,32 +99,32 @@ class App extends React.Component {
   handleFilter = ({ target }) => {
     const { cardArray } = this.state;
     this.setState({ [target.name]: target.value !== ' ' ? target.value : '' });
-    const newArray = cardArray.filter((card) => {
-      const teste = card.cardName;
-      return teste.includes(target.value);
+    const arrayName = cardArray.filter((card) => {
+      const filterName = card.cardName;
+      return filterName.includes(target.value);
     });
-    this.setState({ cardArray: [...newArray] });
+    this.setState({ cardArray: [...arrayName] });
   };
 
   handleFilterRaridade = ({ target }) => {
-    const todas = 'todas';
+    const selected = 'todas';
     const { cardArray } = this.state;
-    this.setState({ [target.name]: todas });
-    const newArray = cardArray.filter((card) => {
-      const teste = card.cardRare;
+    this.setState({ [target.name]: selected });
+    const arrayClassificacao = cardArray.filter((card) => {
+      const classificacao = card.cardRare;
       if (target.value !== 'raro') {
-        return teste.includes(target.value);
+        return classificacao.includes(target.value);
       }
-      return teste === 'raro';
+      return classificacao === 'raro';
     });
-    this.setState({ cardArray: [...newArray] });
+    this.setState({ cardArray: [...arrayClassificacao] });
   };
 
   handleClick = ({ target }) => {
     const { cardArray } = this.state;
     if (target.checked) {
-      const newArray = cardArray.filter((card) => card.cardTrunfo);
-      this.setState({ check: true, cardArray: [...newArray] });
+      const trunfoCard = cardArray.filter((card) => card.cardTrunfo);
+      this.setState({ check: true, cardArray: [...trunfoCard] });
     } else {
       this.setState({ check: false });
     }
@@ -206,7 +206,7 @@ class App extends React.Component {
             onClick={ this.handleClick }
           />
         </label>
-        {cardArray.map((obj, index) => (
+        {cardArray.map((obj, indexMap) => (
           <div key={ obj.cardName }>
             <Card
               cardName={ obj.cardName }
@@ -221,7 +221,7 @@ class App extends React.Component {
             <button
               data-testid="delete-button"
               type="button"
-              onClick={ () => this.handleDelete(index) }
+              onClick={ () => this.handleDelete(indexMap) }
             >
               Excluir
             </button>
