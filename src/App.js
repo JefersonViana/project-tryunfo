@@ -5,7 +5,6 @@ import Card from './components/Card';
 class App extends React.Component {
   constructor() {
     super();
-
     this.state = {
       cardName: '',
       cardDescription: '',
@@ -26,22 +25,14 @@ class App extends React.Component {
 
   handleClickGeneric = ({ target }) => {
     if (target.type === 'checkbox') {
-      this.setState({
-        cardTrunfo: target.checked,
-      });
+      this.setState({ cardTrunfo: target.checked });
       return;
     }
-    this.setState({
-      [target.name]: target.value !== ' ' ? target.value : '',
-    });
+    this.setState({ [target.name]: target.value !== ' ' ? target.value : '' });
     if (target.value.length > 1 && target.type !== 'number') {
-      this.setState({
-        isSaveButtonDisabled: false,
-      });
+      this.setState({ isSaveButtonDisabled: false });
     } else {
-      this.setState({
-        isSaveButtonDisabled: true,
-      });
+      this.setState({ isSaveButtonDisabled: true });
     }
   };
 
@@ -69,7 +60,6 @@ class App extends React.Component {
         cardTrunfo,
       }],
     });
-
     if (cardTrunfo) {
       this.setState({
         cardName: '',
@@ -99,36 +89,26 @@ class App extends React.Component {
   handleDelete = (index) => {
     const { cardArray, hasTrunfo } = this.state;
     const xablau = cardArray.filter((_object, teste) => teste !== index);
-    this.setState({
-      cardArray: xablau,
-    });
+    this.setState({ cardArray: xablau });
     if (hasTrunfo) {
-      this.setState({
-        hasTrunfo: false,
-      });
+      this.setState({ hasTrunfo: false });
     }
   };
 
   handleFilter = ({ target }) => {
     const { cardArray } = this.state;
-    this.setState({
-      [target.name]: target.value !== ' ' ? target.value : '',
-    });
+    this.setState({ [target.name]: target.value !== ' ' ? target.value : '' });
     const newArray = cardArray.filter((card) => {
       const teste = card.cardName;
       return teste.includes(target.value);
     });
-    this.setState({
-      cardArray: [...newArray],
-    });
+    this.setState({ cardArray: [...newArray] });
   };
 
   handleFilterRaridade = ({ target }) => {
     const todas = 'todas';
     const { cardArray } = this.state;
-    this.setState({
-      [target.name]: todas,
-    });
+    this.setState({ [target.name]: todas });
     const newArray = cardArray.filter((card) => {
       const teste = card.cardRare;
       if (target.value !== 'raro') {
@@ -136,9 +116,7 @@ class App extends React.Component {
       }
       return teste === 'raro';
     });
-    this.setState({
-      cardArray: [...newArray],
-    });
+    this.setState({ cardArray: [...newArray] });
   };
 
   render() {
@@ -156,8 +134,8 @@ class App extends React.Component {
       cardArray,
       filterName,
       raridadeFilter,
+      check,
     } = this.state;
-
     return (
       <>
         <Form
@@ -184,35 +162,39 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        <div>
-          <p>Filtar por nome</p>
-          <label>
-            <input
-              data-testid="name-filter"
-              type="text"
-              name="filterName"
-              value={ filterName }
-              onChange={ this.handleFilter }
-            />
-          </label>
-        </div>
-        <div>
-          <p>Filtar por raridade</p>
-          <label>
-            <select
-              name="raridadeFilter"
-              defaultValue={ raridadeFilter }
-              data-testid="rare-filter"
-              onChange={ this.handleFilterRaridade }
-            >
-              {/* <option disabled>selecionar</option> */}
-              <option selected disabled>todas</option>
-              <option>normal</option>
-              <option>raro</option>
-              <option>muito raro</option>
-            </select>
-          </label>
-        </div>
+        <p>Filtar por nome</p>
+        <label>
+          <input
+            disabled={ check }
+            data-testid="name-filter"
+            type="text"
+            name="filterName"
+            value={ filterName }
+            onChange={ this.handleFilter }
+          />
+        </label>
+        <p>Filtar por raridade</p>
+        <label>
+          <select
+            disabled={ check }
+            name="raridadeFilter"
+            defaultValue={ raridadeFilter }
+            data-testid="rare-filter"
+            onChange={ this.handleFilterRaridade }
+          >
+            <option selected disabled>todas</option>
+            <option>normal</option>
+            <option>raro</option>
+            <option>muito raro</option>
+          </select>
+        </label>
+        <label data-testid="trunfo-filter">
+          Super Trunfo
+          <input
+            type="checkbox"
+            onClick={ this.handleClick }
+          />
+        </label>
         {cardArray.map((obj, index) => (
           <div key={ obj.cardName }>
             <Card
