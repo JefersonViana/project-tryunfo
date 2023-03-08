@@ -19,6 +19,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       cardArray: [],
       filterName: '',
+      raridadeFilter: 'todas',
     };
     this.handleClickGeneric = this.handleClickGeneric.bind(this);
   }
@@ -108,16 +109,6 @@ class App extends React.Component {
     }
   };
 
-  // handleFilter = ({ target }) => {
-  //   this.setState({
-  //     [target.name]: target.value !== ' ' ? target.value : '',
-  //   });
-  //   const { cardArray } = this.state;
-  //   const newArray = cardArray.filter((card) => {
-  //     const teste = card.cardName;
-  //     return teste.includes(target.value);
-  //   });
-  // };
   handleFilter = ({ target }) => {
     const { cardArray } = this.state;
     this.setState({
@@ -126,6 +117,24 @@ class App extends React.Component {
     const newArray = cardArray.filter((card) => {
       const teste = card.cardName;
       return teste.includes(target.value);
+    });
+    this.setState({
+      cardArray: [...newArray],
+    });
+  };
+
+  handleFilterRaridade = ({ target }) => {
+    const todas = 'todas';
+    const { cardArray } = this.state;
+    this.setState({
+      [target.name]: todas,
+    });
+    const newArray = cardArray.filter((card) => {
+      const teste = card.cardRare;
+      if (target.value !== 'raro') {
+        return teste.includes(target.value);
+      }
+      return teste === 'raro';
     });
     this.setState({
       cardArray: [...newArray],
@@ -146,6 +155,7 @@ class App extends React.Component {
       isSaveButtonDisabled,
       cardArray,
       filterName,
+      raridadeFilter,
     } = this.state;
 
     return (
@@ -186,6 +196,23 @@ class App extends React.Component {
             />
           </label>
         </div>
+        <div>
+          <p>Filtar por raridade</p>
+          <label>
+            <select
+              name="raridadeFilter"
+              defaultValue={ raridadeFilter }
+              data-testid="rare-filter"
+              onChange={ this.handleFilterRaridade }
+            >
+              {/* <option disabled>selecionar</option> */}
+              <option selected disabled>todas</option>
+              <option>normal</option>
+              <option>raro</option>
+              <option>muito raro</option>
+            </select>
+          </label>
+        </div>
         {cardArray.map((obj, index) => (
           <div key={ obj.cardName }>
             <Card
@@ -201,8 +228,6 @@ class App extends React.Component {
             <button
               data-testid="delete-button"
               type="button"
-              // onClick={ this.handleDelete }
-              // passar o index do MAP
               onClick={ () => this.handleDelete(index) }
             >
               Excluir
@@ -215,11 +240,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// const {
-//   cardName,
-//   cardDescription,
-//   cardImage,
-//   cardRare,
-//   cardAttr1,
-//   cardAttr2,
